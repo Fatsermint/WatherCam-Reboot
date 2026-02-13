@@ -1,0 +1,12 @@
+#map { 
+    height: 80vh; 
+    width: 30vw;
+
+}
+#mappic{
+    display: flex;
+
+}
+#statsButton {
+    display: flex;
+}
