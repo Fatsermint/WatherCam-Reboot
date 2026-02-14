@@ -7,27 +7,36 @@
     <title>Document</title>
 </head>
 <link rel="stylesheet" href="style.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 
 <body>
-    <div id="mappic">
-        <img src="" alt="Loading..." id="weathercamimage" style="width: 80vw;">
-        <div>
-            <div id="map"></div>
 
+    <div style="grid-template-columns: 1fr 1fr;" class="d-grid">
+            <div class="p-2">
+                <img src="" alt="Loading..." id="weathercamimage" style="width: 70vw; height: 70vh;">
+            </div>
+            <div class="p-2">
+                <div id="map" style="width: 30vw; height: 70vh;"></div>
+            </div>
+        </div>
+            <div class="p-4">
+                <h2>Stats</h2>
+            </div>
+            <div class="p-4">
+                <p id="dataP" class=""></p>
+            </div>
+            <div class="p-4">
+                <button id="Next">Next Random Camera</button>
+
+            </div>
         </div>
     </div>
-    <div id="statsButton">
-        <p id="dataP" style="display: flex; justify-self: center;"></p>
-        <button id="Next">Next Camera</button>
-
-    </div>
-
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="script.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 </body>
 
 </html>
