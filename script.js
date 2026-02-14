@@ -31,7 +31,10 @@ function LoadData(data) {
         console.log(stationData)
         const presetData = stationData.properties.presets.find(p => p.id == random.id)
         console.log(presetData)
-        dataP.innerHTML = `Location: ${stationData.properties.names.fi}, ${stationData.properties.province}`
+        dataP.innerHTML = `<strong>Location:</strong> ${stationData.properties.names.fi}, ${stationData.properties.province} (${stationData.geometry.coordinates}) <br> 
+        <strong>Image taken: </strong> ${stationData.properties.dataUpdatedTime.substring(11,19)}
+        
+        `
         const latlng = [stationData.geometry.coordinates[1], stationData.geometry.coordinates[0]]
         marker.setLatLng(latlng)
         map.panTo(latlng)
