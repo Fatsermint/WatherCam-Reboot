@@ -14,13 +14,18 @@
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css">
 <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css">
-
+<link href="/assets/css/fontawesome.css" rel="stylesheet" />
+<link href="assets/css/solid.css" rel="stylesheet" />
 
 <body>
 
     <div style="grid-template-columns: 1fr 1fr;" class="d-grid">
-        <div class="p-2">
+        <div class="p-2 position-relative h-full">
             <img src="" alt="Loading..." id="weathercamimage" style="width: 70vw; height: 70vh;">
+            <div class="display-flex position-absolute top-0 bottom-0 end-0 z-index-100">
+                <i class="fa-solid fa-angle-right fa-3x " id="RightNext" style="display: none; "></i>
+            </div>
+            <i class="fa-solid fa-angle-left fa-3x" id="leftNext" style="display: none;"></i>
         </div>
         <div class="p-2">
             <div id="map" style="width: 30vw; height: 70vh;"></div>
@@ -43,8 +48,9 @@
             </div>
         </div>
     </div>
-    <button id="Next">Next</button>
     </div>
+
+
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="script.js"></script>

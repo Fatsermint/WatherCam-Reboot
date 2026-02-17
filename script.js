@@ -13,8 +13,16 @@ fetchJson(`https://tie.digitraffic.fi/api/weathercam/v1/stations`)
         var markers = L.markerClusterGroup();
         markers.addLayers(L.geoJSON(data));
         map.addLayer(markers);
+        markers.on('click', function (a) {
 
-        next.addEventListener("click", () => LoadData(data))
+            console.log(a.layer.feature.id)
+
+            fetchJson(`https://tie.digitraffic.fi/api/weathercam/v1/stations/${a.layer.feature.id}`)
+                .then(data => {
+                    console.log(data, a.layer.feature)
+                    LoadData(data, a.layer.feature.id, a.layer)
+                })
+        })
     })
 
 async function fetchJson(url) {
@@ -24,16 +32,15 @@ async function fetchJson(url) {
 
 
 
-function LoadData(data) {
+function LoadData(data, stationId, marker) {
     if (!data) return
-    const presets = data.features.map(station => station.properties.presets.map(p => ({ ...p, stationId: station.properties.id }))).flat()
-    const random = presets[Math.floor(Math.random() * presets.length)]
-    console.log(random)
-    document.querySelector("#weathercamimage").src = `https://weathercam.digitraffic.fi/${random.id}.jpg`
-    fetchJson("https://tie.digitraffic.fi/api/weathercam/v1/stations/" + random.stationId).then(stationData => {
-        console.log(stationData)
-        const presetData = stationData.properties.presets.find(p => p.id == random.id)
+    fetchJson("https://tie.digitraffic.fi/api/weathercam/v1/stations/" + stationId).then(stationData => {
+        const presetData = stationData.properties.presets[0]
         console.log(presetData)
+        document.querySelector("#weathercamimage").src = `https://weathercam.digitraffic.fi/${presetData.id}.jpg`
+        document.querySelector("#leftNext").style.display = "block"
+        document.querySelector("#RightNext").style.display = "block"
+
         dataP.innerHTML = `<strong>Location:</strong> ${stationData.properties.names.fi}, ${stationData.properties.province} <br> 
         <strong>Image taken: </strong> ${stationData.properties.dataUpdatedTime.substring(11, 19)}
         
