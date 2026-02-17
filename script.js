@@ -7,18 +7,21 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 let number = 0
 const dataP = document.querySelector("#dataP")
 const next = document.querySelector("#Next")
-const marker = L.marker([0,0]).addTo(map)
 fetchJson(`https://tie.digitraffic.fi/api/weathercam/v1/stations`)
     .then(data => {
+        console.log(data)
+        var markers = L.markerClusterGroup();
+        markers.addLayers(L.geoJSON(data));
+        map.addLayer(markers);
 
         next.addEventListener("click", () => LoadData(data))
-
     })
 
 async function fetchJson(url) {
     const response = await fetch(url)
     return await response.json()
 }
+
 
 
 function LoadData(data) {
@@ -31,11 +34,12 @@ function LoadData(data) {
         console.log(stationData)
         const presetData = stationData.properties.presets.find(p => p.id == random.id)
         console.log(presetData)
-        dataP.innerHTML = `<strong>Location:</strong> ${stationData.properties.names.fi}, ${stationData.properties.province} (${stationData.geometry.coordinates}) <br> 
-        <strong>Image taken: </strong> ${stationData.properties.dataUpdatedTime.substring(11,19)}
+        dataP.innerHTML = `<strong>Location:</strong> ${stationData.properties.names.fi}, ${stationData.properties.province} <br> 
+        <strong>Image taken: </strong> ${stationData.properties.dataUpdatedTime.substring(11, 19)}
         
         `
         const latlng = [stationData.geometry.coordinates[1], stationData.geometry.coordinates[0]]
+        marker.bindPopup(`Coordinates: ${stationData.geometry.coordinates[0]}, ${stationData.geometry.coordinates[1]}`)
         marker.setLatLng(latlng)
         map.panTo(latlng)
 
