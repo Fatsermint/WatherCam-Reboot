@@ -35,32 +35,44 @@ const RightNext = document.querySelector("#RightNext")
 
 function LoadData(data, stationId, marker) {
     if (!data) return
+    leftNext.style.display = "none"
+    RightNext.style.display = "none"
+
     fetchJson("https://tie.digitraffic.fi/api/weathercam/v1/stations/" + stationId).then(stationData => {
         let currentPresetNumber = 0
         
         const presets = stationData.properties.presets
         let currentPreset = stationData.properties.presets[0]
         const stationPresetsLenght = stationData.properties.presets.length
+        reloadKarhu()
+
         document.querySelector("#weathercamimage").src = `https://weathercam.digitraffic.fi/${currentPreset.id}.jpg`
-        leftNext.style.display = "block"
+        if (stationPresetsLenght > 1){
+            RightNext.style.display = "block"
+            leftNext.style.display = "block"
+        }
+
         leftNext.addEventListener("click", function () {
             currentPresetNumber--
             if (currentPresetNumber < 0) {currentPresetNumber = stationPresetsLenght - 1}
             currentPreset = stationData.properties.presets[currentPresetNumber]
             document.querySelector("#weathercamimage").src = `https://weathercam.digitraffic.fi/${currentPreset.id}.jpg`
+            reloadKarhu()
         })
 
-        RightNext.style.display = "block"
         RightNext.addEventListener("click", function () {
             currentPresetNumber++
             if (currentPresetNumber === stationPresetsLenght) {currentPresetNumber = 0}
             currentPreset = stationData.properties.presets[currentPresetNumber]
             document.querySelector("#weathercamimage").src = `https://weathercam.digitraffic.fi/${currentPreset.id}.jpg`
+            reloadKarhu()
         })
-
+        function reloadKarhu() {
+            document.querySelector("#karhu").innerHTML =`${currentPresetNumber + 1}/${stationPresetsLenght}`
+            document.querySelector("#karhu").style.display = "block"
+        }
         dataP.innerHTML = `<strong>Location:</strong> ${stationData.properties.names.fi}, ${stationData.properties.province} <br> 
         <strong>Image taken: </strong> ${stationData.properties.dataUpdatedTime.substring(11, 19)}
-        
         `
         const latlng = [stationData.geometry.coordinates[1], stationData.geometry.coordinates[0]]
         marker.bindPopup(`Coordinates: ${stationData.geometry.coordinates[0]}, ${stationData.geometry.coordinates[1]}`)
