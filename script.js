@@ -30,16 +30,33 @@ async function fetchJson(url) {
     return await response.json()
 }
 
-
+const leftNext = document.querySelector("#leftNext")
+const RightNext = document.querySelector("#RightNext")
 
 function LoadData(data, stationId, marker) {
     if (!data) return
     fetchJson("https://tie.digitraffic.fi/api/weathercam/v1/stations/" + stationId).then(stationData => {
-        const presetData = stationData.properties.presets[0]
-        console.log(presetData)
-        document.querySelector("#weathercamimage").src = `https://weathercam.digitraffic.fi/${presetData.id}.jpg`
-        document.querySelector("#leftNext").style.display = "block"
-        document.querySelector("#RightNext").style.display = "block"
+        let currentPresetNumber = 0
+        
+        const presets = stationData.properties.presets
+        let currentPreset = stationData.properties.presets[0]
+        const stationPresetsLenght = stationData.properties.presets.length
+        document.querySelector("#weathercamimage").src = `https://weathercam.digitraffic.fi/${currentPreset.id}.jpg`
+        leftNext.style.display = "block"
+        leftNext.addEventListener("click", function () {
+            currentPresetNumber--
+            if (currentPresetNumber < 0) {currentPresetNumber = stationPresetsLenght - 1}
+            currentPreset = stationData.properties.presets[currentPresetNumber]
+            document.querySelector("#weathercamimage").src = `https://weathercam.digitraffic.fi/${currentPreset.id}.jpg`
+        })
+
+        RightNext.style.display = "block"
+        RightNext.addEventListener("click", function () {
+            currentPresetNumber++
+            if (currentPresetNumber === stationPresetsLenght) {currentPresetNumber = 0}
+            currentPreset = stationData.properties.presets[currentPresetNumber]
+            document.querySelector("#weathercamimage").src = `https://weathercam.digitraffic.fi/${currentPreset.id}.jpg`
+        })
 
         dataP.innerHTML = `<strong>Location:</strong> ${stationData.properties.names.fi}, ${stationData.properties.province} <br> 
         <strong>Image taken: </strong> ${stationData.properties.dataUpdatedTime.substring(11, 19)}

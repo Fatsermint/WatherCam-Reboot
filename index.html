@@ -20,12 +20,14 @@
 <body>
 
     <div style="grid-template-columns: 1fr 1fr;" class="d-grid">
-        <div class="p-2 position-relative h-full">
+        <div class="p-2 position-relative">
             <img src="" alt="Loading..." id="weathercamimage" style="width: 70vw; height: 70vh;">
-            <div class="display-flex position-absolute top-0 bottom-0 end-0 z-index-100">
-                <i class="fa-solid fa-angle-right fa-3x " id="RightNext" style="display: none; "></i>
+            <div class="display-flex position-absolute top-0 bottom-0 end-0 align-content-center z-index-100" >
+            <i class="fa-solid fa-angle-right fa-3x " id="RightNext" style="display: none; "></i>
             </div>
-            <i class="fa-solid fa-angle-left fa-3x" id="leftNext" style="display: none;"></i>
+            <div class="display-flex position-absolute top-0 bottom-0 start-0 align-content-center z-index-100">
+                <i class="fa-solid fa-angle-left fa-3x" id="leftNext" style="display: none;"></i>
+            </div>
         </div>
         <div class="p-2">
             <div id="map" style="width: 30vw; height: 70vh;"></div>
